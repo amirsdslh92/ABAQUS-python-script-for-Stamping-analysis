@@ -1,0 +1,858 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.Model(name='0Step1_Static')
+mdb.models['0Step1_Static'].ConstrainedSketch(name='blank', sheetSize=200.0)
+mdb.models['0Step1_Static'].sketches['blank'].rectangle(point1=(0.0, 0.0), 
+    point2=(150.0, 5.0))
+mdb.models['0Step1_Static'].Part(dimensionality=THREE_D, name='blank', type=
+    DEFORMABLE_BODY)
+mdb.models['0Step1_Static'].parts['blank'].BaseShell(sketch=
+    mdb.models['0Step1_Static'].sketches['blank'])
+mdb.models['0Step1_Static'].ConstrainedSketch(name='holder', sheetSize=200.0)
+mdb.models['0Step1_Static'].sketches['holder'].Line(point1=(30.0, 50.0), 
+    point2=(30.0, 0.0))
+mdb.models['0Step1_Static'].sketches['holder'].Line(point1=(30.0, 0.0), point2=
+    (80.0, 0.0))
+mdb.models['0Step1_Static'].sketches['holder'].Line(point1=(80.0, 0.0), point2=
+    (80.0, 50.0))
+mdb.models['0Step1_Static'].sketches['holder'].FilletByRadius(curve1=
+    mdb.models['0Step1_Static'].sketches['holder'].geometry[3], curve2=
+    mdb.models['0Step1_Static'].sketches['holder'].geometry[4], nearPoint1=(
+    80.0, 0.0), nearPoint2=(80.0, 0.0), radius=6.0)
+mdb.models['0Step1_Static'].Part(dimensionality=THREE_D, name='holder', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['0Step1_Static'].parts['holder'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['0Step1_Static'].sketches['holder'])
+mdb.models['0Step1_Static'].ConstrainedSketch(name='punch', sheetSize=200.0)
+mdb.models['0Step1_Static'].sketches['punch'].Line(point1=(0.0, 0.0), point2=(
+    24.0, 0.0))
+mdb.models['0Step1_Static'].sketches['punch'].Line(point1=(24.0, 0.0), point2=(
+    24.0, 50.0))
+mdb.models['0Step1_Static'].sketches['punch'].FilletByRadius(curve1=
+    mdb.models['0Step1_Static'].sketches['punch'].geometry[2], curve2=
+    mdb.models['0Step1_Static'].sketches['punch'].geometry[3], nearPoint1=(
+    24.0, 0.0), nearPoint2=(24.0, 0.0), radius=5.0)
+mdb.models['0Step1_Static'].Part(dimensionality=THREE_D, name='punch', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['0Step1_Static'].parts['punch'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['0Step1_Static'].sketches['punch'])
+mdb.models['0Step1_Static'].ConstrainedSketch(name='die', sheetSize=200.0)
+mdb.models['0Step1_Static'].sketches['die'].Line(point1=(25.0, -51.0), point2=(
+    25.0, -1.0))
+mdb.models['0Step1_Static'].sketches['die'].Line(point1=(25.0, -1.0), point2=(
+    75.0, -1.0))
+mdb.models['0Step1_Static'].sketches['die'].FilletByRadius(curve1=
+    mdb.models['0Step1_Static'].sketches['die'].geometry[2], curve2=
+    mdb.models['0Step1_Static'].sketches['die'].geometry[3], nearPoint1=(25.0, 
+    -1.0), nearPoint2=(25.0, -1.0), radius=5.0)
+mdb.models['0Step1_Static'].Part(dimensionality=THREE_D, name='die', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['0Step1_Static'].parts['die'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['0Step1_Static'].sketches['die'])
+mdb.models['0Step1_Static'].Material(name='Alu')
+mdb.models['0Step1_Static'].materials['Alu'].Density(table=((2.7e-09, ), ))
+mdb.models['0Step1_Static'].materials['Alu'].Elastic(table=((70000.0, 0.27), ))
+mdb.models['0Step1_Static'].materials['Alu'].Plastic(table=((300.0, 0.0), (
+    300.0, 1.0)))
+mdb.models['0Step1_Static'].HomogeneousShellSection(material='Alu', name=
+    'SecBlank', thickness=1.0)
+mdb.models['0Step1_Static'].parts['blank'].SectionAssignment(offsetType=
+    MIDDLE_SURFACE, region=Region(
+    faces=mdb.models['0Step1_Static'].parts['blank'].faces.getSequenceFromMask(
+    mask=('[#1 ]', ), )), sectionName='SecBlank')
+mdb.models['0Step1_Static'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['0Step1_Static'].rootAssembly.Instance(dependent=ON, name='blank', 
+    part=mdb.models['0Step1_Static'].parts['blank'])
+mdb.models['0Step1_Static'].rootAssembly.Instance(dependent=ON, name='die', 
+    part=mdb.models['0Step1_Static'].parts['die'])
+mdb.models['0Step1_Static'].rootAssembly.Instance(dependent=ON, name='holder', 
+    part=mdb.models['0Step1_Static'].parts['holder'])
+mdb.models['0Step1_Static'].rootAssembly.Instance(dependent=ON, name='punch', 
+    part=mdb.models['0Step1_Static'].parts['punch'])
+mdb.models['0Step1_Static'].rootAssembly.instances['blank'].rotateAboutAxis(
+    angle=90.0, axisDirection=(10.0, 0.0, 0.0), axisPoint=(0.0, 0.0, 0.0))
+mdb.models['0Step1_Static'].rootAssembly.instances['blank'].translate(vector=(
+    0.0, -0.5, 0.0))
+mdb.models['0Step1_Static'].rootAssembly.ReferencePoint(point=(0.0, 25.0, 0.0))
+mdb.models['0Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, 25.0, 
+    0.0))
+mdb.models['0Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, -25.0, 
+    0.0))
+mdb.models['0Step1_Static'].rootAssembly.Set(name='rpPunch', referencePoints=(
+    mdb.models['0Step1_Static'].rootAssembly.referencePoints[10], ))
+mdb.models['0Step1_Static'].rootAssembly.Set(name='rpHolder', referencePoints=(
+    mdb.models['0Step1_Static'].rootAssembly.referencePoints[11], ))
+mdb.models['0Step1_Static'].rootAssembly.Set(name='rpDie', referencePoints=(
+    mdb.models['0Step1_Static'].rootAssembly.referencePoints[12], ))
+mdb.models['0Step1_Static'].rootAssembly.Set(edges=
+    mdb.models['0Step1_Static'].rootAssembly.instances['blank'].edges.getSequenceFromMask(
+    mask=('[#8 ]', ), ), name='SymmX')
+mdb.models['0Step1_Static'].rootAssembly.Surface(name='SurfPunch', side2Faces=
+    mdb.models['0Step1_Static'].rootAssembly.instances['punch'].faces)
+mdb.models['0Step1_Static'].rootAssembly.Surface(name='SurfHolder', side2Faces=
+    mdb.models['0Step1_Static'].rootAssembly.instances['holder'].faces)
+mdb.models['0Step1_Static'].rootAssembly.Surface(name='SurfDie', side1Faces=
+    mdb.models['0Step1_Static'].rootAssembly.instances['die'].faces)
+mdb.models['0Step1_Static'].rootAssembly.Surface(name='SurfBlankUp', 
+    side2Faces=
+    mdb.models['0Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['0Step1_Static'].rootAssembly.Surface(name='SurfBlankDown', 
+    side1Faces=
+    mdb.models['0Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['0Step1_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['0Step1_Static'].steps['Step-1'].Restart(frequency=0, 
+    numberIntervals=4, overlay=ON, timeMarks=ON)
+mdb.models['0Step1_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=4)
+mdb.models['0Step1_Static'].ContactProperty('IntProp-1')
+mdb.models['0Step1_Static'].interactionProperties['IntProp-1'].TangentialBehavior(
+    formulation=PENALTY, fraction=0.005, table=((0.1, ), ))
+mdb.models['0Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfPunch'], name=
+    'Int-1', slave=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['0Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfHolder'], name=
+    'Int-2', slave=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['0Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfDie'], name='Int-3', 
+    slave=mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfBlankDown'], 
+    sliding=FINITE, thickness=ON)
+mdb.models['0Step1_Static'].RigidBody(name='Const-1', refPointRegion=
+    mdb.models['0Step1_Static'].rootAssembly.sets['rpPunch'], surfaceRegion=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfPunch'])
+mdb.models['0Step1_Static'].RigidBody(name='Const-2', refPointRegion=
+    mdb.models['0Step1_Static'].rootAssembly.sets['rpHolder'], surfaceRegion=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfHolder'])
+mdb.models['0Step1_Static'].RigidBody(name='Const-3', refPointRegion=
+    mdb.models['0Step1_Static'].rootAssembly.sets['rpDie'], surfaceRegion=
+    mdb.models['0Step1_Static'].rootAssembly.surfaces['SurfDie'])
+mdb.models['0Step1_Static'].rootAssembly.engineeringFeatures.PointMassInertia(
+    alpha=0.0, composite=0.0, mass=2.025e-06, name='Inertia-1', region=
+    mdb.models['0Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['0Step1_Static'].parts['blank'].setElementType(elemTypes=(ElemType(
+    elemCode=S4R, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    hourglassControl=ENHANCED), ), regions=(
+    mdb.models['0Step1_Static'].parts['blank'].faces, ))
+mdb.models['0Step1_Static'].parts['blank'].seedEdgeBySize(constraint=FINER, 
+    edges=(mdb.models['0Step1_Static'].parts['blank'].edges[0], ), size=0.5)
+mdb.models['0Step1_Static'].parts['blank'].seedEdgeByNumber(constraint=FIXED, 
+    edges=(mdb.models['0Step1_Static'].parts['blank'].edges[3], ), number=2)
+mdb.models['0Step1_Static'].parts['blank'].setMeshControls(elemShape=QUAD, 
+    regions=mdb.models['0Step1_Static'].parts['blank'].faces, technique=
+    STRUCTURED)
+mdb.models['0Step1_Static'].parts['blank'].generateMesh()
+mdb.models['0Step1_Static'].ConcentratedForce(cf2=-500.0, createStepName=
+    'Step-1', name='Load-1', region=
+    mdb.models['0Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['0Step1_Static'].XsymmBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['0Step1_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['0Step1_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['0Step1_Static'].DisplacementBC(createStepName='Initial', name=
+    'BC-4', region=mdb.models['0Step1_Static'].rootAssembly.sets['rpHolder'], 
+    u1=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
+mdb.Job(model='0Step1_Static', multiprocessingMode=DEFAULT, name=
+    '0Step1_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['0Step1_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['0Step1_Static'].waitForCompletion()
+mdb.Model(name='0Step2_Explicit', objectToCopy=mdb.models['0Step1_Static'])
+mdb.models['0Step2_Explicit'].ExplicitDynamicsStep(maintainAttributes=True, 
+    name='Step-1', previous='Initial', timePeriod=0.0125)
+mdb.models['0Step2_Explicit'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['0Step2_Explicit'].InitialState(createStepName='Initial', fileName=
+    '0Step1_Static', instances=(
+    mdb.models['0Step2_Explicit'].rootAssembly.instances['blank'], ), name=
+    'PreField')
+mdb.models['0Step2_Explicit'].VelocityBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['rpPunch'], v1=0.0, 
+    v2=0.0, v3=0.0, vr1=0.0, vr2=0.0, vr3=0.0)
+mdb.models['0Step2_Explicit'].SmoothStepAmplitude(data=((0.0, 0.0), (0.00625, 
+    1.0), (0.0125, 0.0)), name='Amp', timeSpan=STEP)
+mdb.models['0Step2_Explicit'].boundaryConditions['BC-3'].setValuesInStep(
+    amplitude='Amp', stepName='Step-1', v2=-8000)
+mdb.Job(model='0Step2_Explicit', multiprocessingMode=DEFAULT, name=
+    '0Step2_Explicit', numCpus=1, numDomains=1, parallelizationMethodExplicit=
+    DOMAIN, type=ANALYSIS)
+mdb.jobs['0Step2_Explicit'].submit(consistencyChecking=OFF)
+mdb.jobs['0Step2_Explicit'].waitForCompletion()
+mdb.Model(name='0Step3_Static', objectToCopy=mdb.models['0Step2_Explicit'])
+mdb.models['0Step3_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['0Step3_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['0Step3_Static'].predefinedFields['PreField'].setValues(fileName=
+    '0Step2_Explicit', updateReferenceConfiguration=ON)
+mdb.models['0Step3_Static'].EncastreBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['0Step3_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['0Step3_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['0Step3_Static'].EncastreBC(createStepName='Initial', name='BC-4', 
+    region=mdb.models['0Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.Job(model='0Step3_Static', multiprocessingMode=DEFAULT, name=
+    '0Step3_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['0Step3_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['0Step3_Static'].waitForCompletion()
+mdb.Model(name='1Step1_Static')
+mdb.models['1Step1_Static'].ConstrainedSketch(name='blank', sheetSize=200.0)
+mdb.models['1Step1_Static'].sketches['blank'].rectangle(point1=(0.0, 0.0), 
+    point2=(150.0, 5.0))
+mdb.models['1Step1_Static'].Part(dimensionality=THREE_D, name='blank', type=
+    DEFORMABLE_BODY)
+mdb.models['1Step1_Static'].parts['blank'].BaseShell(sketch=
+    mdb.models['1Step1_Static'].sketches['blank'])
+mdb.models['1Step1_Static'].ConstrainedSketch(name='holder', sheetSize=200.0)
+mdb.models['1Step1_Static'].sketches['holder'].Line(point1=(30.0, 50.0), 
+    point2=(30.0, 0.0))
+mdb.models['1Step1_Static'].sketches['holder'].Line(point1=(30.0, 0.0), point2=
+    (80.0, 0.0))
+mdb.models['1Step1_Static'].sketches['holder'].Line(point1=(80.0, 0.0), point2=
+    (80.0, 50.0))
+mdb.models['1Step1_Static'].sketches['holder'].FilletByRadius(curve1=
+    mdb.models['1Step1_Static'].sketches['holder'].geometry[3], curve2=
+    mdb.models['1Step1_Static'].sketches['holder'].geometry[4], nearPoint1=(
+    80.0, 0.0), nearPoint2=(80.0, 0.0), radius=6.0)
+mdb.models['1Step1_Static'].Part(dimensionality=THREE_D, name='holder', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['1Step1_Static'].parts['holder'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['1Step1_Static'].sketches['holder'])
+mdb.models['1Step1_Static'].ConstrainedSketch(name='punch', sheetSize=200.0)
+mdb.models['1Step1_Static'].sketches['punch'].Line(point1=(0.0, 0.0), point2=(
+    24.0, 0.0))
+mdb.models['1Step1_Static'].sketches['punch'].Line(point1=(24.0, 0.0), point2=(
+    24.0, 50.0))
+mdb.models['1Step1_Static'].sketches['punch'].FilletByRadius(curve1=
+    mdb.models['1Step1_Static'].sketches['punch'].geometry[2], curve2=
+    mdb.models['1Step1_Static'].sketches['punch'].geometry[3], nearPoint1=(
+    24.0, 0.0), nearPoint2=(24.0, 0.0), radius=5.0)
+mdb.models['1Step1_Static'].Part(dimensionality=THREE_D, name='punch', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['1Step1_Static'].parts['punch'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['1Step1_Static'].sketches['punch'])
+mdb.models['1Step1_Static'].ConstrainedSketch(name='die', sheetSize=200.0)
+mdb.models['1Step1_Static'].sketches['die'].Line(point1=(26.0, -51.0), point2=(
+    26.0, -1.0))
+mdb.models['1Step1_Static'].sketches['die'].Line(point1=(26.0, -1.0), point2=(
+    76.0, -1.0))
+mdb.models['1Step1_Static'].sketches['die'].FilletByRadius(curve1=
+    mdb.models['1Step1_Static'].sketches['die'].geometry[2], curve2=
+    mdb.models['1Step1_Static'].sketches['die'].geometry[3], nearPoint1=(26.0, 
+    -1.0), nearPoint2=(26.0, -1.0), radius=5.0)
+mdb.models['1Step1_Static'].Part(dimensionality=THREE_D, name='die', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['1Step1_Static'].parts['die'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['1Step1_Static'].sketches['die'])
+mdb.models['1Step1_Static'].Material(name='Alu')
+mdb.models['1Step1_Static'].materials['Alu'].Density(table=((2.7e-09, ), ))
+mdb.models['1Step1_Static'].materials['Alu'].Elastic(table=((70000.0, 0.27), ))
+mdb.models['1Step1_Static'].materials['Alu'].Plastic(table=((300.0, 0.0), (
+    300.0, 1.0)))
+mdb.models['1Step1_Static'].HomogeneousShellSection(material='Alu', name=
+    'SecBlank', thickness=1.0)
+mdb.models['1Step1_Static'].parts['blank'].SectionAssignment(offsetType=
+    MIDDLE_SURFACE, region=Region(
+    faces=mdb.models['1Step1_Static'].parts['blank'].faces.getSequenceFromMask(
+    mask=('[#1 ]', ), )), sectionName='SecBlank')
+mdb.models['1Step1_Static'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['1Step1_Static'].rootAssembly.Instance(dependent=ON, name='blank', 
+    part=mdb.models['1Step1_Static'].parts['blank'])
+mdb.models['1Step1_Static'].rootAssembly.Instance(dependent=ON, name='die', 
+    part=mdb.models['1Step1_Static'].parts['die'])
+mdb.models['1Step1_Static'].rootAssembly.Instance(dependent=ON, name='holder', 
+    part=mdb.models['1Step1_Static'].parts['holder'])
+mdb.models['1Step1_Static'].rootAssembly.Instance(dependent=ON, name='punch', 
+    part=mdb.models['1Step1_Static'].parts['punch'])
+mdb.models['1Step1_Static'].rootAssembly.instances['blank'].rotateAboutAxis(
+    angle=90.0, axisDirection=(10.0, 0.0, 0.0), axisPoint=(0.0, 0.0, 0.0))
+mdb.models['1Step1_Static'].rootAssembly.instances['blank'].translate(vector=(
+    0.0, -0.5, 0.0))
+mdb.models['1Step1_Static'].rootAssembly.ReferencePoint(point=(0.0, 25.0, 0.0))
+mdb.models['1Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, 25.0, 
+    0.0))
+mdb.models['1Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, -25.0, 
+    0.0))
+mdb.models['1Step1_Static'].rootAssembly.Set(name='rpPunch', referencePoints=(
+    mdb.models['1Step1_Static'].rootAssembly.referencePoints[10], ))
+mdb.models['1Step1_Static'].rootAssembly.Set(name='rpHolder', referencePoints=(
+    mdb.models['1Step1_Static'].rootAssembly.referencePoints[11], ))
+mdb.models['1Step1_Static'].rootAssembly.Set(name='rpDie', referencePoints=(
+    mdb.models['1Step1_Static'].rootAssembly.referencePoints[12], ))
+mdb.models['1Step1_Static'].rootAssembly.Set(edges=
+    mdb.models['1Step1_Static'].rootAssembly.instances['blank'].edges.getSequenceFromMask(
+    mask=('[#8 ]', ), ), name='SymmX')
+mdb.models['1Step1_Static'].rootAssembly.Surface(name='SurfPunch', side2Faces=
+    mdb.models['1Step1_Static'].rootAssembly.instances['punch'].faces)
+mdb.models['1Step1_Static'].rootAssembly.Surface(name='SurfHolder', side2Faces=
+    mdb.models['1Step1_Static'].rootAssembly.instances['holder'].faces)
+mdb.models['1Step1_Static'].rootAssembly.Surface(name='SurfDie', side1Faces=
+    mdb.models['1Step1_Static'].rootAssembly.instances['die'].faces)
+mdb.models['1Step1_Static'].rootAssembly.Surface(name='SurfBlankUp', 
+    side2Faces=
+    mdb.models['1Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['1Step1_Static'].rootAssembly.Surface(name='SurfBlankDown', 
+    side1Faces=
+    mdb.models['1Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['1Step1_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['1Step1_Static'].steps['Step-1'].Restart(frequency=0, 
+    numberIntervals=4, overlay=ON, timeMarks=ON)
+mdb.models['1Step1_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=4)
+mdb.models['1Step1_Static'].ContactProperty('IntProp-1')
+mdb.models['1Step1_Static'].interactionProperties['IntProp-1'].TangentialBehavior(
+    formulation=PENALTY, fraction=0.005, table=((0.1, ), ))
+mdb.models['1Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfPunch'], name=
+    'Int-1', slave=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['1Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfHolder'], name=
+    'Int-2', slave=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['1Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfDie'], name='Int-3', 
+    slave=mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfBlankDown'], 
+    sliding=FINITE, thickness=ON)
+mdb.models['1Step1_Static'].RigidBody(name='Const-1', refPointRegion=
+    mdb.models['1Step1_Static'].rootAssembly.sets['rpPunch'], surfaceRegion=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfPunch'])
+mdb.models['1Step1_Static'].RigidBody(name='Const-2', refPointRegion=
+    mdb.models['1Step1_Static'].rootAssembly.sets['rpHolder'], surfaceRegion=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfHolder'])
+mdb.models['1Step1_Static'].RigidBody(name='Const-3', refPointRegion=
+    mdb.models['1Step1_Static'].rootAssembly.sets['rpDie'], surfaceRegion=
+    mdb.models['1Step1_Static'].rootAssembly.surfaces['SurfDie'])
+mdb.models['1Step1_Static'].rootAssembly.engineeringFeatures.PointMassInertia(
+    alpha=0.0, composite=0.0, mass=2.025e-06, name='Inertia-1', region=
+    mdb.models['1Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['1Step1_Static'].parts['blank'].setElementType(elemTypes=(ElemType(
+    elemCode=S4R, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    hourglassControl=ENHANCED), ), regions=(
+    mdb.models['1Step1_Static'].parts['blank'].faces, ))
+mdb.models['1Step1_Static'].parts['blank'].seedEdgeBySize(constraint=FINER, 
+    edges=(mdb.models['1Step1_Static'].parts['blank'].edges[0], ), size=0.5)
+mdb.models['1Step1_Static'].parts['blank'].seedEdgeByNumber(constraint=FIXED, 
+    edges=(mdb.models['1Step1_Static'].parts['blank'].edges[3], ), number=2)
+mdb.models['1Step1_Static'].parts['blank'].setMeshControls(elemShape=QUAD, 
+    regions=mdb.models['1Step1_Static'].parts['blank'].faces, technique=
+    STRUCTURED)
+mdb.models['1Step1_Static'].parts['blank'].generateMesh()
+mdb.models['1Step1_Static'].ConcentratedForce(cf2=-500.0, createStepName=
+    'Step-1', name='Load-1', region=
+    mdb.models['1Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['1Step1_Static'].XsymmBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['1Step1_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['1Step1_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['1Step1_Static'].DisplacementBC(createStepName='Initial', name=
+    'BC-4', region=mdb.models['1Step1_Static'].rootAssembly.sets['rpHolder'], 
+    u1=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
+mdb.Job(model='1Step1_Static', multiprocessingMode=DEFAULT, name=
+    '1Step1_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['1Step1_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['1Step1_Static'].waitForCompletion()
+mdb.Model(name='1Step2_Explicit', objectToCopy=mdb.models['1Step1_Static'])
+mdb.models['1Step2_Explicit'].ExplicitDynamicsStep(maintainAttributes=True, 
+    name='Step-1', previous='Initial', timePeriod=0.0125)
+mdb.models['1Step2_Explicit'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['1Step2_Explicit'].InitialState(createStepName='Initial', fileName=
+    '1Step1_Static', instances=(
+    mdb.models['1Step2_Explicit'].rootAssembly.instances['blank'], ), name=
+    'PreField')
+mdb.models['1Step2_Explicit'].VelocityBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['rpPunch'], v1=0.0, 
+    v2=0.0, v3=0.0, vr1=0.0, vr2=0.0, vr3=0.0)
+mdb.models['1Step2_Explicit'].SmoothStepAmplitude(data=((0.0, 0.0), (0.00625, 
+    1.0), (0.0125, 0.0)), name='Amp', timeSpan=STEP)
+mdb.models['1Step2_Explicit'].boundaryConditions['BC-3'].setValuesInStep(
+    amplitude='Amp', stepName='Step-1', v2=-8000)
+mdb.Job(model='1Step2_Explicit', multiprocessingMode=DEFAULT, name=
+    '1Step2_Explicit', numCpus=1, numDomains=1, parallelizationMethodExplicit=
+    DOMAIN, type=ANALYSIS)
+mdb.jobs['1Step2_Explicit'].submit(consistencyChecking=OFF)
+mdb.jobs['1Step2_Explicit'].waitForCompletion()
+mdb.Model(name='1Step3_Static', objectToCopy=mdb.models['1Step2_Explicit'])
+mdb.models['1Step3_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['1Step3_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['1Step3_Static'].predefinedFields['PreField'].setValues(fileName=
+    '1Step2_Explicit', updateReferenceConfiguration=ON)
+mdb.models['1Step3_Static'].EncastreBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['1Step3_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['1Step3_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['1Step3_Static'].EncastreBC(createStepName='Initial', name='BC-4', 
+    region=mdb.models['1Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.Job(model='1Step3_Static', multiprocessingMode=DEFAULT, name=
+    '1Step3_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['1Step3_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['1Step3_Static'].waitForCompletion()
+mdb.Model(name='2Step1_Static')
+mdb.models['2Step1_Static'].ConstrainedSketch(name='blank', sheetSize=200.0)
+mdb.models['2Step1_Static'].sketches['blank'].rectangle(point1=(0.0, 0.0), 
+    point2=(150.0, 5.0))
+mdb.models['2Step1_Static'].Part(dimensionality=THREE_D, name='blank', type=
+    DEFORMABLE_BODY)
+mdb.models['2Step1_Static'].parts['blank'].BaseShell(sketch=
+    mdb.models['2Step1_Static'].sketches['blank'])
+mdb.models['2Step1_Static'].ConstrainedSketch(name='holder', sheetSize=200.0)
+mdb.models['2Step1_Static'].sketches['holder'].Line(point1=(30.0, 50.0), 
+    point2=(30.0, 0.0))
+mdb.models['2Step1_Static'].sketches['holder'].Line(point1=(30.0, 0.0), point2=
+    (80.0, 0.0))
+mdb.models['2Step1_Static'].sketches['holder'].Line(point1=(80.0, 0.0), point2=
+    (80.0, 50.0))
+mdb.models['2Step1_Static'].sketches['holder'].FilletByRadius(curve1=
+    mdb.models['2Step1_Static'].sketches['holder'].geometry[3], curve2=
+    mdb.models['2Step1_Static'].sketches['holder'].geometry[4], nearPoint1=(
+    80.0, 0.0), nearPoint2=(80.0, 0.0), radius=6.0)
+mdb.models['2Step1_Static'].Part(dimensionality=THREE_D, name='holder', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['2Step1_Static'].parts['holder'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['2Step1_Static'].sketches['holder'])
+mdb.models['2Step1_Static'].ConstrainedSketch(name='punch', sheetSize=200.0)
+mdb.models['2Step1_Static'].sketches['punch'].Line(point1=(0.0, 0.0), point2=(
+    24.0, 0.0))
+mdb.models['2Step1_Static'].sketches['punch'].Line(point1=(24.0, 0.0), point2=(
+    24.0, 50.0))
+mdb.models['2Step1_Static'].sketches['punch'].FilletByRadius(curve1=
+    mdb.models['2Step1_Static'].sketches['punch'].geometry[2], curve2=
+    mdb.models['2Step1_Static'].sketches['punch'].geometry[3], nearPoint1=(
+    24.0, 0.0), nearPoint2=(24.0, 0.0), radius=5.0)
+mdb.models['2Step1_Static'].Part(dimensionality=THREE_D, name='punch', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['2Step1_Static'].parts['punch'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['2Step1_Static'].sketches['punch'])
+mdb.models['2Step1_Static'].ConstrainedSketch(name='die', sheetSize=200.0)
+mdb.models['2Step1_Static'].sketches['die'].Line(point1=(27.0, -51.0), point2=(
+    27.0, -1.0))
+mdb.models['2Step1_Static'].sketches['die'].Line(point1=(27.0, -1.0), point2=(
+    77.0, -1.0))
+mdb.models['2Step1_Static'].sketches['die'].FilletByRadius(curve1=
+    mdb.models['2Step1_Static'].sketches['die'].geometry[2], curve2=
+    mdb.models['2Step1_Static'].sketches['die'].geometry[3], nearPoint1=(27.0, 
+    -1.0), nearPoint2=(27.0, -1.0), radius=5.0)
+mdb.models['2Step1_Static'].Part(dimensionality=THREE_D, name='die', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['2Step1_Static'].parts['die'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['2Step1_Static'].sketches['die'])
+mdb.models['2Step1_Static'].Material(name='Alu')
+mdb.models['2Step1_Static'].materials['Alu'].Density(table=((2.7e-09, ), ))
+mdb.models['2Step1_Static'].materials['Alu'].Elastic(table=((70000.0, 0.27), ))
+mdb.models['2Step1_Static'].materials['Alu'].Plastic(table=((300.0, 0.0), (
+    300.0, 1.0)))
+mdb.models['2Step1_Static'].HomogeneousShellSection(material='Alu', name=
+    'SecBlank', thickness=1.0)
+mdb.models['2Step1_Static'].parts['blank'].SectionAssignment(offsetType=
+    MIDDLE_SURFACE, region=Region(
+    faces=mdb.models['2Step1_Static'].parts['blank'].faces.getSequenceFromMask(
+    mask=('[#1 ]', ), )), sectionName='SecBlank')
+mdb.models['2Step1_Static'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['2Step1_Static'].rootAssembly.Instance(dependent=ON, name='blank', 
+    part=mdb.models['2Step1_Static'].parts['blank'])
+mdb.models['2Step1_Static'].rootAssembly.Instance(dependent=ON, name='die', 
+    part=mdb.models['2Step1_Static'].parts['die'])
+mdb.models['2Step1_Static'].rootAssembly.Instance(dependent=ON, name='holder', 
+    part=mdb.models['2Step1_Static'].parts['holder'])
+mdb.models['2Step1_Static'].rootAssembly.Instance(dependent=ON, name='punch', 
+    part=mdb.models['2Step1_Static'].parts['punch'])
+mdb.models['2Step1_Static'].rootAssembly.instances['blank'].rotateAboutAxis(
+    angle=90.0, axisDirection=(10.0, 0.0, 0.0), axisPoint=(0.0, 0.0, 0.0))
+mdb.models['2Step1_Static'].rootAssembly.instances['blank'].translate(vector=(
+    0.0, -0.5, 0.0))
+mdb.models['2Step1_Static'].rootAssembly.ReferencePoint(point=(0.0, 25.0, 0.0))
+mdb.models['2Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, 25.0, 
+    0.0))
+mdb.models['2Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, -25.0, 
+    0.0))
+mdb.models['2Step1_Static'].rootAssembly.Set(name='rpPunch', referencePoints=(
+    mdb.models['2Step1_Static'].rootAssembly.referencePoints[10], ))
+mdb.models['2Step1_Static'].rootAssembly.Set(name='rpHolder', referencePoints=(
+    mdb.models['2Step1_Static'].rootAssembly.referencePoints[11], ))
+mdb.models['2Step1_Static'].rootAssembly.Set(name='rpDie', referencePoints=(
+    mdb.models['2Step1_Static'].rootAssembly.referencePoints[12], ))
+mdb.models['2Step1_Static'].rootAssembly.Set(edges=
+    mdb.models['2Step1_Static'].rootAssembly.instances['blank'].edges.getSequenceFromMask(
+    mask=('[#8 ]', ), ), name='SymmX')
+mdb.models['2Step1_Static'].rootAssembly.Surface(name='SurfPunch', side2Faces=
+    mdb.models['2Step1_Static'].rootAssembly.instances['punch'].faces)
+mdb.models['2Step1_Static'].rootAssembly.Surface(name='SurfHolder', side2Faces=
+    mdb.models['2Step1_Static'].rootAssembly.instances['holder'].faces)
+mdb.models['2Step1_Static'].rootAssembly.Surface(name='SurfDie', side1Faces=
+    mdb.models['2Step1_Static'].rootAssembly.instances['die'].faces)
+mdb.models['2Step1_Static'].rootAssembly.Surface(name='SurfBlankUp', 
+    side2Faces=
+    mdb.models['2Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['2Step1_Static'].rootAssembly.Surface(name='SurfBlankDown', 
+    side1Faces=
+    mdb.models['2Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['2Step1_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['2Step1_Static'].steps['Step-1'].Restart(frequency=0, 
+    numberIntervals=4, overlay=ON, timeMarks=ON)
+mdb.models['2Step1_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=4)
+mdb.models['2Step1_Static'].ContactProperty('IntProp-1')
+mdb.models['2Step1_Static'].interactionProperties['IntProp-1'].TangentialBehavior(
+    formulation=PENALTY, fraction=0.005, table=((0.1, ), ))
+mdb.models['2Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfPunch'], name=
+    'Int-1', slave=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['2Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfHolder'], name=
+    'Int-2', slave=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['2Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfDie'], name='Int-3', 
+    slave=mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfBlankDown'], 
+    sliding=FINITE, thickness=ON)
+mdb.models['2Step1_Static'].RigidBody(name='Const-1', refPointRegion=
+    mdb.models['2Step1_Static'].rootAssembly.sets['rpPunch'], surfaceRegion=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfPunch'])
+mdb.models['2Step1_Static'].RigidBody(name='Const-2', refPointRegion=
+    mdb.models['2Step1_Static'].rootAssembly.sets['rpHolder'], surfaceRegion=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfHolder'])
+mdb.models['2Step1_Static'].RigidBody(name='Const-3', refPointRegion=
+    mdb.models['2Step1_Static'].rootAssembly.sets['rpDie'], surfaceRegion=
+    mdb.models['2Step1_Static'].rootAssembly.surfaces['SurfDie'])
+mdb.models['2Step1_Static'].rootAssembly.engineeringFeatures.PointMassInertia(
+    alpha=0.0, composite=0.0, mass=2.025e-06, name='Inertia-1', region=
+    mdb.models['2Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['2Step1_Static'].parts['blank'].setElementType(elemTypes=(ElemType(
+    elemCode=S4R, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    hourglassControl=ENHANCED), ), regions=(
+    mdb.models['2Step1_Static'].parts['blank'].faces, ))
+mdb.models['2Step1_Static'].parts['blank'].seedEdgeBySize(constraint=FINER, 
+    edges=(mdb.models['2Step1_Static'].parts['blank'].edges[0], ), size=0.5)
+mdb.models['2Step1_Static'].parts['blank'].seedEdgeByNumber(constraint=FIXED, 
+    edges=(mdb.models['2Step1_Static'].parts['blank'].edges[3], ), number=2)
+mdb.models['2Step1_Static'].parts['blank'].setMeshControls(elemShape=QUAD, 
+    regions=mdb.models['2Step1_Static'].parts['blank'].faces, technique=
+    STRUCTURED)
+mdb.models['2Step1_Static'].parts['blank'].generateMesh()
+mdb.models['2Step1_Static'].ConcentratedForce(cf2=-500.0, createStepName=
+    'Step-1', name='Load-1', region=
+    mdb.models['2Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['2Step1_Static'].XsymmBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['2Step1_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['2Step1_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['2Step1_Static'].DisplacementBC(createStepName='Initial', name=
+    'BC-4', region=mdb.models['2Step1_Static'].rootAssembly.sets['rpHolder'], 
+    u1=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
+mdb.Job(model='2Step1_Static', multiprocessingMode=DEFAULT, name=
+    '2Step1_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['2Step1_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['2Step1_Static'].waitForCompletion()
+mdb.Model(name='2Step2_Explicit', objectToCopy=mdb.models['2Step1_Static'])
+mdb.models['2Step2_Explicit'].ExplicitDynamicsStep(maintainAttributes=True, 
+    name='Step-1', previous='Initial', timePeriod=0.0125)
+mdb.models['2Step2_Explicit'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['2Step2_Explicit'].InitialState(createStepName='Initial', fileName=
+    '2Step1_Static', instances=(
+    mdb.models['2Step2_Explicit'].rootAssembly.instances['blank'], ), name=
+    'PreField')
+mdb.models['2Step2_Explicit'].VelocityBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['rpPunch'], v1=0.0, 
+    v2=0.0, v3=0.0, vr1=0.0, vr2=0.0, vr3=0.0)
+mdb.models['2Step2_Explicit'].SmoothStepAmplitude(data=((0.0, 0.0), (0.00625, 
+    1.0), (0.0125, 0.0)), name='Amp', timeSpan=STEP)
+mdb.models['2Step2_Explicit'].boundaryConditions['BC-3'].setValuesInStep(
+    amplitude='Amp', stepName='Step-1', v2=-8000)
+mdb.Job(model='2Step2_Explicit', multiprocessingMode=DEFAULT, name=
+    '2Step2_Explicit', numCpus=1, numDomains=1, parallelizationMethodExplicit=
+    DOMAIN, type=ANALYSIS)
+mdb.jobs['2Step2_Explicit'].submit(consistencyChecking=OFF)
+mdb.jobs['2Step2_Explicit'].waitForCompletion()
+mdb.Model(name='2Step3_Static', objectToCopy=mdb.models['2Step2_Explicit'])
+mdb.models['2Step3_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['2Step3_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['2Step3_Static'].predefinedFields['PreField'].setValues(fileName=
+    '2Step2_Explicit', updateReferenceConfiguration=ON)
+mdb.models['2Step3_Static'].EncastreBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['2Step3_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['2Step3_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['2Step3_Static'].EncastreBC(createStepName='Initial', name='BC-4', 
+    region=mdb.models['2Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.Job(model='2Step3_Static', multiprocessingMode=DEFAULT, name=
+    '2Step3_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['2Step3_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['2Step3_Static'].waitForCompletion()
+mdb.Model(name='3Step1_Static')
+mdb.models['3Step1_Static'].ConstrainedSketch(name='blank', sheetSize=200.0)
+mdb.models['3Step1_Static'].sketches['blank'].rectangle(point1=(0.0, 0.0), 
+    point2=(150.0, 5.0))
+mdb.models['3Step1_Static'].Part(dimensionality=THREE_D, name='blank', type=
+    DEFORMABLE_BODY)
+mdb.models['3Step1_Static'].parts['blank'].BaseShell(sketch=
+    mdb.models['3Step1_Static'].sketches['blank'])
+mdb.models['3Step1_Static'].ConstrainedSketch(name='holder', sheetSize=200.0)
+mdb.models['3Step1_Static'].sketches['holder'].Line(point1=(30.0, 50.0), 
+    point2=(30.0, 0.0))
+mdb.models['3Step1_Static'].sketches['holder'].Line(point1=(30.0, 0.0), point2=
+    (80.0, 0.0))
+mdb.models['3Step1_Static'].sketches['holder'].Line(point1=(80.0, 0.0), point2=
+    (80.0, 50.0))
+mdb.models['3Step1_Static'].sketches['holder'].FilletByRadius(curve1=
+    mdb.models['3Step1_Static'].sketches['holder'].geometry[3], curve2=
+    mdb.models['3Step1_Static'].sketches['holder'].geometry[4], nearPoint1=(
+    80.0, 0.0), nearPoint2=(80.0, 0.0), radius=6.0)
+mdb.models['3Step1_Static'].Part(dimensionality=THREE_D, name='holder', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['3Step1_Static'].parts['holder'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['3Step1_Static'].sketches['holder'])
+mdb.models['3Step1_Static'].ConstrainedSketch(name='punch', sheetSize=200.0)
+mdb.models['3Step1_Static'].sketches['punch'].Line(point1=(0.0, 0.0), point2=(
+    24.0, 0.0))
+mdb.models['3Step1_Static'].sketches['punch'].Line(point1=(24.0, 0.0), point2=(
+    24.0, 50.0))
+mdb.models['3Step1_Static'].sketches['punch'].FilletByRadius(curve1=
+    mdb.models['3Step1_Static'].sketches['punch'].geometry[2], curve2=
+    mdb.models['3Step1_Static'].sketches['punch'].geometry[3], nearPoint1=(
+    24.0, 0.0), nearPoint2=(24.0, 0.0), radius=5.0)
+mdb.models['3Step1_Static'].Part(dimensionality=THREE_D, name='punch', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['3Step1_Static'].parts['punch'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['3Step1_Static'].sketches['punch'])
+mdb.models['3Step1_Static'].ConstrainedSketch(name='die', sheetSize=200.0)
+mdb.models['3Step1_Static'].sketches['die'].Line(point1=(28.0, -51.0), point2=(
+    28.0, -1.0))
+mdb.models['3Step1_Static'].sketches['die'].Line(point1=(28.0, -1.0), point2=(
+    78.0, -1.0))
+mdb.models['3Step1_Static'].sketches['die'].FilletByRadius(curve1=
+    mdb.models['3Step1_Static'].sketches['die'].geometry[2], curve2=
+    mdb.models['3Step1_Static'].sketches['die'].geometry[3], nearPoint1=(28.0, 
+    -1.0), nearPoint2=(28.0, -1.0), radius=5.0)
+mdb.models['3Step1_Static'].Part(dimensionality=THREE_D, name='die', type=
+    ANALYTIC_RIGID_SURFACE)
+mdb.models['3Step1_Static'].parts['die'].AnalyticRigidSurfExtrude(depth=2.0, 
+    sketch=mdb.models['3Step1_Static'].sketches['die'])
+mdb.models['3Step1_Static'].Material(name='Alu')
+mdb.models['3Step1_Static'].materials['Alu'].Density(table=((2.7e-09, ), ))
+mdb.models['3Step1_Static'].materials['Alu'].Elastic(table=((70000.0, 0.27), ))
+mdb.models['3Step1_Static'].materials['Alu'].Plastic(table=((300.0, 0.0), (
+    300.0, 1.0)))
+mdb.models['3Step1_Static'].HomogeneousShellSection(material='Alu', name=
+    'SecBlank', thickness=1.0)
+mdb.models['3Step1_Static'].parts['blank'].SectionAssignment(offsetType=
+    MIDDLE_SURFACE, region=Region(
+    faces=mdb.models['3Step1_Static'].parts['blank'].faces.getSequenceFromMask(
+    mask=('[#1 ]', ), )), sectionName='SecBlank')
+mdb.models['3Step1_Static'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['3Step1_Static'].rootAssembly.Instance(dependent=ON, name='blank', 
+    part=mdb.models['3Step1_Static'].parts['blank'])
+mdb.models['3Step1_Static'].rootAssembly.Instance(dependent=ON, name='die', 
+    part=mdb.models['3Step1_Static'].parts['die'])
+mdb.models['3Step1_Static'].rootAssembly.Instance(dependent=ON, name='holder', 
+    part=mdb.models['3Step1_Static'].parts['holder'])
+mdb.models['3Step1_Static'].rootAssembly.Instance(dependent=ON, name='punch', 
+    part=mdb.models['3Step1_Static'].parts['punch'])
+mdb.models['3Step1_Static'].rootAssembly.instances['blank'].rotateAboutAxis(
+    angle=90.0, axisDirection=(10.0, 0.0, 0.0), axisPoint=(0.0, 0.0, 0.0))
+mdb.models['3Step1_Static'].rootAssembly.instances['blank'].translate(vector=(
+    0.0, -0.5, 0.0))
+mdb.models['3Step1_Static'].rootAssembly.ReferencePoint(point=(0.0, 25.0, 0.0))
+mdb.models['3Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, 25.0, 
+    0.0))
+mdb.models['3Step1_Static'].rootAssembly.ReferencePoint(point=(55.0, -25.0, 
+    0.0))
+mdb.models['3Step1_Static'].rootAssembly.Set(name='rpPunch', referencePoints=(
+    mdb.models['3Step1_Static'].rootAssembly.referencePoints[10], ))
+mdb.models['3Step1_Static'].rootAssembly.Set(name='rpHolder', referencePoints=(
+    mdb.models['3Step1_Static'].rootAssembly.referencePoints[11], ))
+mdb.models['3Step1_Static'].rootAssembly.Set(name='rpDie', referencePoints=(
+    mdb.models['3Step1_Static'].rootAssembly.referencePoints[12], ))
+mdb.models['3Step1_Static'].rootAssembly.Set(edges=
+    mdb.models['3Step1_Static'].rootAssembly.instances['blank'].edges.getSequenceFromMask(
+    mask=('[#8 ]', ), ), name='SymmX')
+mdb.models['3Step1_Static'].rootAssembly.Surface(name='SurfPunch', side2Faces=
+    mdb.models['3Step1_Static'].rootAssembly.instances['punch'].faces)
+mdb.models['3Step1_Static'].rootAssembly.Surface(name='SurfHolder', side2Faces=
+    mdb.models['3Step1_Static'].rootAssembly.instances['holder'].faces)
+mdb.models['3Step1_Static'].rootAssembly.Surface(name='SurfDie', side1Faces=
+    mdb.models['3Step1_Static'].rootAssembly.instances['die'].faces)
+mdb.models['3Step1_Static'].rootAssembly.Surface(name='SurfBlankUp', 
+    side2Faces=
+    mdb.models['3Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['3Step1_Static'].rootAssembly.Surface(name='SurfBlankDown', 
+    side1Faces=
+    mdb.models['3Step1_Static'].rootAssembly.instances['blank'].faces)
+mdb.models['3Step1_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['3Step1_Static'].steps['Step-1'].Restart(frequency=0, 
+    numberIntervals=4, overlay=ON, timeMarks=ON)
+mdb.models['3Step1_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=4)
+mdb.models['3Step1_Static'].ContactProperty('IntProp-1')
+mdb.models['3Step1_Static'].interactionProperties['IntProp-1'].TangentialBehavior(
+    formulation=PENALTY, fraction=0.005, table=((0.1, ), ))
+mdb.models['3Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfPunch'], name=
+    'Int-1', slave=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['3Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfHolder'], name=
+    'Int-2', slave=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfBlankUp'], sliding=
+    FINITE, thickness=ON)
+mdb.models['3Step1_Static'].SurfaceToSurfaceContactStd(createStepName='Step-1', 
+    interactionProperty='IntProp-1', master=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfDie'], name='Int-3', 
+    slave=mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfBlankDown'], 
+    sliding=FINITE, thickness=ON)
+mdb.models['3Step1_Static'].RigidBody(name='Const-1', refPointRegion=
+    mdb.models['3Step1_Static'].rootAssembly.sets['rpPunch'], surfaceRegion=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfPunch'])
+mdb.models['3Step1_Static'].RigidBody(name='Const-2', refPointRegion=
+    mdb.models['3Step1_Static'].rootAssembly.sets['rpHolder'], surfaceRegion=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfHolder'])
+mdb.models['3Step1_Static'].RigidBody(name='Const-3', refPointRegion=
+    mdb.models['3Step1_Static'].rootAssembly.sets['rpDie'], surfaceRegion=
+    mdb.models['3Step1_Static'].rootAssembly.surfaces['SurfDie'])
+mdb.models['3Step1_Static'].rootAssembly.engineeringFeatures.PointMassInertia(
+    alpha=0.0, composite=0.0, mass=2.025e-06, name='Inertia-1', region=
+    mdb.models['3Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['3Step1_Static'].parts['blank'].setElementType(elemTypes=(ElemType(
+    elemCode=S4R, elemLibrary=STANDARD, secondOrderAccuracy=OFF, 
+    hourglassControl=ENHANCED), ), regions=(
+    mdb.models['3Step1_Static'].parts['blank'].faces, ))
+mdb.models['3Step1_Static'].parts['blank'].seedEdgeBySize(constraint=FINER, 
+    edges=(mdb.models['3Step1_Static'].parts['blank'].edges[0], ), size=0.5)
+mdb.models['3Step1_Static'].parts['blank'].seedEdgeByNumber(constraint=FIXED, 
+    edges=(mdb.models['3Step1_Static'].parts['blank'].edges[3], ), number=2)
+mdb.models['3Step1_Static'].parts['blank'].setMeshControls(elemShape=QUAD, 
+    regions=mdb.models['3Step1_Static'].parts['blank'].faces, technique=
+    STRUCTURED)
+mdb.models['3Step1_Static'].parts['blank'].generateMesh()
+mdb.models['3Step1_Static'].ConcentratedForce(cf2=-500.0, createStepName=
+    'Step-1', name='Load-1', region=
+    mdb.models['3Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.models['3Step1_Static'].XsymmBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['3Step1_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['3Step1_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['3Step1_Static'].DisplacementBC(createStepName='Initial', name=
+    'BC-4', region=mdb.models['3Step1_Static'].rootAssembly.sets['rpHolder'], 
+    u1=SET, u3=SET, ur1=SET, ur2=SET, ur3=SET)
+mdb.Job(model='3Step1_Static', multiprocessingMode=DEFAULT, name=
+    '3Step1_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['3Step1_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['3Step1_Static'].waitForCompletion()
+mdb.Model(name='3Step2_Explicit', objectToCopy=mdb.models['3Step1_Static'])
+mdb.models['3Step2_Explicit'].ExplicitDynamicsStep(maintainAttributes=True, 
+    name='Step-1', previous='Initial', timePeriod=0.0125)
+mdb.models['3Step2_Explicit'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['3Step2_Explicit'].InitialState(createStepName='Initial', fileName=
+    '3Step1_Static', instances=(
+    mdb.models['3Step2_Explicit'].rootAssembly.instances['blank'], ), name=
+    'PreField')
+mdb.models['3Step2_Explicit'].VelocityBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['rpPunch'], v1=0.0, 
+    v2=0.0, v3=0.0, vr1=0.0, vr2=0.0, vr3=0.0)
+mdb.models['3Step2_Explicit'].SmoothStepAmplitude(data=((0.0, 0.0), (0.00625, 
+    1.0), (0.0125, 0.0)), name='Amp', timeSpan=STEP)
+mdb.models['3Step2_Explicit'].boundaryConditions['BC-3'].setValuesInStep(
+    amplitude='Amp', stepName='Step-1', v2=-8000)
+mdb.Job(model='3Step2_Explicit', multiprocessingMode=DEFAULT, name=
+    '3Step2_Explicit', numCpus=1, numDomains=1, parallelizationMethodExplicit=
+    DOMAIN, type=ANALYSIS)
+mdb.jobs['3Step2_Explicit'].submit(consistencyChecking=OFF)
+mdb.jobs['3Step2_Explicit'].waitForCompletion()
+mdb.Model(name='3Step3_Static', objectToCopy=mdb.models['3Step2_Explicit'])
+mdb.models['3Step3_Static'].StaticStep(name='Step-1', nlgeom=ON, previous=
+    'Initial')
+mdb.models['3Step3_Static'].fieldOutputRequests['F-Output-1'].setValues(
+    numIntervals=8)
+mdb.models['3Step3_Static'].predefinedFields['PreField'].setValues(fileName=
+    '3Step2_Explicit', updateReferenceConfiguration=ON)
+mdb.models['3Step3_Static'].EncastreBC(createStepName='Initial', name='BC-1', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['SymmX'])
+mdb.models['3Step3_Static'].EncastreBC(createStepName='Initial', name='BC-2', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['rpDie'])
+mdb.models['3Step3_Static'].EncastreBC(createStepName='Initial', name='BC-3', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['rpPunch'])
+mdb.models['3Step3_Static'].EncastreBC(createStepName='Initial', name='BC-4', 
+    region=mdb.models['3Step1_Static'].rootAssembly.sets['rpHolder'])
+mdb.Job(model='3Step3_Static', multiprocessingMode=DEFAULT, name=
+    '3Step3_Static', numCpus=1, numDomains=1, type=ANALYSIS)
+mdb.jobs['3Step3_Static'].submit(consistencyChecking=OFF)
+mdb.jobs['3Step3_Static'].waitForCompletion()
+mdb.models['1Step1_Static'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['1Step1_Static'].sketches['die'])
+del mdb.models['1Step1_Static'].sketches['__edit__']
+mdb.models['2Step1_Static'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['2Step1_Static'].sketches['blank'])
+del mdb.models['2Step1_Static'].sketches['__edit__']
+mdb.models['2Step1_Static'].ConstrainedSketch(name='__edit__', objectToCopy=
+    mdb.models['2Step1_Static'].sketches['die'])
+# Save by sas18024 on 2022_01_30-16.34.48; build 2021 2020_03_06-09.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.models['2Step1_Static'].sketches['__edit__']
+# Save by sas18024 on 2022_01_30-16.34.56; build 2021 2020_03_06-09.50.37 167380
