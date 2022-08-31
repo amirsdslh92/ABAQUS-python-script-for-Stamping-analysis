@@ -1,5 +1,6 @@
 # ABAQUS python script for Stamping analysis
 This is a python script for stamping analysis, I worked on this script on the Data Science for Materials and Manufacturing course at UCONN. I just modified the code for the purpose of the course project. The main body had been developed by the insteructor.
+
 The model is symmetric about x axis, so we can simplify the analysis to +x axis.
 ![2](https://user-images.githubusercontent.com/109553637/187695864-61c48482-daf3-4c30-a4d9-322dae95e660.JPG)
 
